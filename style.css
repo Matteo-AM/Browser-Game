@@ -8,18 +8,27 @@
 }
 
 /* ============================================================
-   DESIGN TOKENS  (placeholder values – replace when designing)
+   DESIGN TOKENS  (medieval dark theme – BattleKnight-inspired)
    ============================================================ */
 :root {
-  --color-bg:        #0d0d0d;
-  --color-surface:   #1a1a2e;
-  --color-primary:   #e94560;
-  --color-text:      #e0e0e0;
-  --color-text-dim:  #888;
-  --color-error:     #ff4d4d;
-  --font-base:       'Segoe UI', system-ui, sans-serif;
-  --radius:          8px;
-  --transition:      0.2s ease;
+  --color-bg:            #1a0f0a;
+  --color-surface:       #2d1e0f;
+  --color-surface-2:     #3d2a15;
+  --color-border:        #4a3520;
+  --color-primary:       #c8a44c;
+  --color-primary-dim:   #8b6914;
+  --color-accent:        #d4872a;
+  --color-text:          #e8d9b5;
+  --color-text-dim:      #9c8a6e;
+  --color-error:         #e05050;
+  --color-hp:            #c84040;
+  --color-exp:           #4a90d9;
+  --font-base:           'Segoe UI', system-ui, sans-serif;
+  --radius:              6px;
+  --transition:          0.2s ease;
+  --sidebar-width:       160px;
+  --right-panel-width:   220px;
+  --topbar-height:       56px;
 }
 
 /* ============================================================
@@ -52,7 +61,7 @@ html, body {
    LOGIN SCREEN
    ============================================================ */
 #screen-login {
-  background: var(--color-bg);
+  background: radial-gradient(ellipse at center, #2d1e0f 0%, #1a0f0a 70%);
 }
 
 .login-box {
@@ -60,6 +69,7 @@ html, body {
   max-width: 360px;
   padding: 2.5rem 2rem;
   background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   display: flex;
   flex-direction: column;
@@ -70,6 +80,7 @@ html, body {
   font-size: 2rem;
   text-align: center;
   color: var(--color-primary);
+  letter-spacing: 0.05em;
   /* placeholder – replace with custom font/logo */
 }
 
@@ -92,7 +103,7 @@ html, body {
 
 #form-login input {
   padding: 0.6rem 0.8rem;
-  border: 1px solid #333;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   background: #111;
   color: var(--color-text);
@@ -108,11 +119,12 @@ html, body {
 #btn-login {
   margin-top: 0.5rem;
   padding: 0.75rem;
-  background: var(--color-primary);
+  background: linear-gradient(to bottom, var(--color-accent), var(--color-primary-dim));
   color: #fff;
-  border: none;
+  border: 1px solid var(--color-primary-dim);
   border-radius: var(--radius);
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
   transition: opacity var(--transition);
 }
@@ -128,56 +140,191 @@ html, body {
 }
 
 /* ============================================================
-   GAME SCREEN
+   GAME SCREEN  –  BattleKnight-style layout
    ============================================================ */
 #screen-game {
   display: none;
   flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
 #screen-game.active {
   display: flex;
 }
 
-/* HUD */
-#hud {
+/* ── TOP BAR ── */
+#top-bar {
+  height: var(--topbar-height);
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 10;
+  padding: 0 1rem;
+  background: linear-gradient(to bottom, var(--color-surface-2), var(--color-surface));
+  border-bottom: 2px solid var(--color-border);
+  z-index: 100;
   gap: 1rem;
 }
 
-#hud-player,
-#hud-stats {
+#top-bar-left {
   display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+#char-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 80px;
+}
+
+#hud-username {
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 0.95rem;
+}
+
+#hud-level {
+  font-size: 0.78rem;
+  color: var(--color-text-dim);
+}
+
+#stat-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stat-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+}
+
+.bar-label {
+  width: 2.5rem;
+  color: var(--color-text-dim);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.bar-track {
+  width: 120px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width var(--transition);
+}
+
+.bar-fill--hp  { background: linear-gradient(to right, #8b0000, var(--color-hp)); }
+.bar-fill--exp { background: linear-gradient(to right, #1a4a80, var(--color-exp)); }
+
+.bar-value {
+  color: var(--color-text-dim);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+#top-bar-right {
+  display: flex;
+  align-items: center;
   gap: 1rem;
+}
+
+.currency-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   font-size: 0.9rem;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.currency-icon {
+  font-size: 1rem;
 }
 
 #btn-logout {
   padding: 0.3rem 0.8rem;
   background: transparent;
-  border: 1px solid var(--color-primary);
-  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dim);
   border-radius: var(--radius);
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: background var(--transition);
+  font-size: 0.82rem;
+  transition: border-color var(--transition), color var(--transition);
 }
 
 #btn-logout:hover {
-  background: var(--color-primary);
-  color: #fff;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
-/* Game area */
-#game-area {
+/* ── THREE-COLUMN LAYOUT ── */
+#game-layout {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── LEFT NAVIGATION SIDEBAR ── */
+#nav-sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--color-surface);
+  border-right: 2px solid var(--color-border);
+  overflow-y: auto;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0.5rem 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  cursor: pointer;
+  color: var(--color-text-dim);
+  border-left: 3px solid transparent;
+  transition: background var(--transition), color var(--transition),
+              border-color var(--transition);
+  user-select: none;
+}
+
+.nav-item:hover {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+.nav-item.active {
+  background: var(--color-surface-2);
+  color: var(--color-primary);
+  border-left-color: var(--color-primary);
+}
+
+.nav-icon  { font-size: 1.1rem; }
+.nav-label { font-size: 0.87rem; }
+
+/* ── MAIN CONTENT AREA ── */
+#game-content {
   flex: 1;
   position: relative;
   overflow: hidden;
+  background: #0d0a05;
 }
 
 #game-canvas {
@@ -186,24 +333,86 @@ html, body {
   height: 100%;
 }
 
-/* Inventory panel (placeholder) */
-#panel-inventory {
-  width: 240px;
+/* ── RIGHT SIDEBAR ── */
+#panel-right {
+  width: var(--right-panel-width);
+  flex-shrink: 0;
   background: var(--color-surface);
-  padding: 1rem;
+  border-left: 2px solid var(--color-border);
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-#panel-inventory h2 {
-  font-size: 1rem;
-  margin-bottom: 0.75rem;
+.panel-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary-dim);
+  padding: 0.6rem 0.75rem 0.4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Character panel */
+#panel-character {
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+#char-portrait {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+.portrait-placeholder {
+  width: 72px;
+  height: 72px;
+  background: var(--color-surface-2);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  /* TODO: replace with actual portrait image */
+}
+
+#char-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0 0.75rem 0.5rem;
+}
+
+.char-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+}
+
+.stat-name  { color: var(--color-text-dim); }
+.stat-value {
   color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* Inventory panel */
+#panel-inventory {
+  flex: 1;
 }
 
 #inventory-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+}
+
+#inventory-list li {
+  padding: 0.4rem 0.5rem;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  color: var(--color-text);
 }
 
