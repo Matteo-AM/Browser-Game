@@ -4,10 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Browser Game</title>
+  <meta name="description" content="A browser-based game — coming soon.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <canvas id="game-canvas"></canvas>
+
+  <!-- ===================== LOGIN SCREEN ===================== -->
+  <section id="screen-login" class="screen active">
+    <div class="login-box">
+      <h1 class="game-title">Browser Game</h1>
+      <p class="game-subtitle"><!-- Tagline placeholder --></p>
+      <form id="form-login" novalidate>
+        <label for="input-username">Username</label>
+        <input id="input-username" type="text" autocomplete="username" placeholder="Enter username" required>
+
+        <label for="input-password">Password</label>
+        <input id="input-password" type="password" autocomplete="current-password" placeholder="Enter password" required>
+
+        <button type="submit" id="btn-login">Play</button>
+        <p id="login-error" class="error-msg" hidden>Invalid credentials. Please try again.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== GAME SCREEN ===================== -->
+  <section id="screen-game" class="screen" hidden>
+
+    <!-- HUD -->
+    <header id="hud">
+      <div id="hud-player">
+        <span id="hud-username"><!-- player name --></span>
+        <span id="hud-level">Lv. <span id="hud-level-value">1</span></span>
+      </div>
+      <div id="hud-stats">
+        <span>HP: <span id="hud-hp"><!-- hp --></span></span>
+        <span>EXP: <span id="hud-exp"><!-- exp --></span></span>
+      </div>
+      <button id="btn-logout">Logout</button>
+    </header>
+
+    <!-- Main game canvas -->
+    <main id="game-area">
+      <canvas id="game-canvas"></canvas>
+    </main>
+
+    <!-- Inventory panel (placeholder) -->
+    <aside id="panel-inventory" hidden>
+      <h2>Inventory</h2>
+      <ul id="inventory-list">
+        <!-- Items will be injected by main.js -->
+      </ul>
+    </aside>
+
+  </section>
+
   <script src="main.js"></script>
 </body>
 </html>

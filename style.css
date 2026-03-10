@@ -1,14 +1,209 @@
-* {
+/* ============================================================
+   BASE RESET
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-body {
+/* ============================================================
+   DESIGN TOKENS  (placeholder values – replace when designing)
+   ============================================================ */
+:root {
+  --color-bg:        #0d0d0d;
+  --color-surface:   #1a1a2e;
+  --color-primary:   #e94560;
+  --color-text:      #e0e0e0;
+  --color-text-dim:  #888;
+  --color-error:     #ff4d4d;
+  --font-base:       'Segoe UI', system-ui, sans-serif;
+  --radius:          8px;
+  --transition:      0.2s ease;
+}
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+html, body {
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-base);
   overflow: hidden;
-  background: #000;
+}
+
+/* ============================================================
+   SCREENS  (login / game)
+   ============================================================ */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+}
+
+.screen.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   LOGIN SCREEN
+   ============================================================ */
+#screen-login {
+  background: var(--color-bg);
+}
+
+.login-box {
+  width: 100%;
+  max-width: 360px;
+  padding: 2.5rem 2rem;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.game-title {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--color-primary);
+  /* placeholder – replace with custom font/logo */
+}
+
+.game-subtitle {
+  text-align: center;
+  color: var(--color-text-dim);
+  min-height: 1.2em;
+}
+
+#form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#form-login label {
+  font-size: 0.85rem;
+  color: var(--color-text-dim);
+}
+
+#form-login input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #333;
+  border-radius: var(--radius);
+  background: #111;
+  color: var(--color-text);
+  font-size: 1rem;
+  transition: border-color var(--transition);
+}
+
+#form-login input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+#btn-login {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+#btn-login:hover {
+  opacity: 0.85;
+}
+
+.error-msg {
+  color: var(--color-error);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ============================================================
+   GAME SCREEN
+   ============================================================ */
+#screen-game {
+  display: none;
+  flex-direction: column;
+}
+
+#screen-game.active {
+  display: flex;
+}
+
+/* HUD */
+#hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+  gap: 1rem;
+}
+
+#hud-player,
+#hud-stats {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+#btn-logout {
+  padding: 0.3rem 0.8rem;
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background var(--transition);
+}
+
+#btn-logout:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Game area */
+#game-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
 }
 
 #game-canvas {
   display: block;
+  width: 100%;
+  height: 100%;
 }
+
+/* Inventory panel (placeholder) */
+#panel-inventory {
+  width: 240px;
+  background: var(--color-surface);
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+#panel-inventory h2 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+
+#inventory-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
