@@ -12,7 +12,10 @@ resize();
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // TODO: game logic and rendering
+  ctx.fillStyle = '#fff';
+  ctx.font = '48px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Browser Game', canvas.width / 2, canvas.height / 2);
 
   requestAnimationFrame(gameLoop);
 }
