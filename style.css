@@ -227,8 +227,8 @@ html, body {
   transition: width var(--transition);
 }
 
-.bar-fill--hp  { background: linear-gradient(to right, #8b0000, var(--color-hp)); }
-.bar-fill--exp { background: linear-gradient(to right, #1a4a80, var(--color-exp)); }
+.bar-fill--hp  { background: linear-gradient(to right, #8b0000, var(--color-hp)); width: 100%; }
+.bar-fill--exp { background: linear-gradient(to right, #1a4a80, var(--color-exp)); width: 0%; }
 
 .bar-value {
   color: var(--color-text-dim);

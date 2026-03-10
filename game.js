@@ -121,11 +121,19 @@ function updateHUD() {
 // ---------------------------------------------------------------------------
 // NAVIGATION
 // ---------------------------------------------------------------------------
+function activateNavItem(item) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  item.classList.add('active');
+  // TODO: load section content for item.dataset.section
+}
+
 document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    item.classList.add('active');
-    // TODO: load section content for item.dataset.section
+  item.addEventListener('click', () => activateNavItem(item));
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      activateNavItem(item);
+    }
   });
 });
 
