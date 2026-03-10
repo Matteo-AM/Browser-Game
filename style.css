@@ -23,6 +23,7 @@
   --color-error:         #e05050;
   --color-hp:            #c84040;
   --color-exp:           #4a90d9;
+  --color-canvas-bg:     #0d0a05;
   --font-base:           'Segoe UI', system-ui, sans-serif;
   --radius:              6px;
   --transition:          0.2s ease;
@@ -324,7 +325,7 @@ html, body {
   flex: 1;
   position: relative;
   overflow: hidden;
-  background: #0d0a05;
+  background: var(--color-canvas-bg);
 }
 
 #game-canvas {
