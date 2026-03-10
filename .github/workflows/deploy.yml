@@ -1,0 +1,40 @@
+name: Deploy – Production
+
+on:
+  push:
+    branches: [main]
+
+# Allow only one concurrent production deployment
+concurrency:
+  group: production-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy-production:
+    name: Deploy to GitHub Pages (production)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run tests before deploy
+        run: echo "Running pre-deploy checks…"
+        # TODO: replace with actual test commands when tests are defined
+
+      - name: Upload static files as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

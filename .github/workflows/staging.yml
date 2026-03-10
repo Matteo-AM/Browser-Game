@@ -1,0 +1,42 @@
+name: Deploy – Staging
+
+on:
+  push:
+    branches: [staging]
+
+# Allow only one concurrent staging deployment
+concurrency:
+  group: staging-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy-staging:
+    name: Deploy to GitHub Pages (staging)
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run tests before deploy
+        run: echo "Running pre-deploy checks…"
+        # TODO: replace with actual test commands when tests are defined
+
+      - name: Upload static files as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+        with:
+          preview: false

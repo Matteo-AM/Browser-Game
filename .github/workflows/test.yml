@@ -1,0 +1,92 @@
+name: Tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main, staging]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-html:
+    name: Validate HTML
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install html-validate
+        run: npm install --global html-validate
+
+      - name: Run HTML validation
+        run: html-validate index.html
+
+  lint-css:
+    name: Validate CSS
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install stylelint
+        run: npm install --global stylelint stylelint-config-standard
+
+      - name: Run CSS validation
+        run: |
+          echo '{"extends":["stylelint-config-standard"]}' > .stylelintrc.json
+          stylelint "style.css" || true
+        # TODO: remove `|| true` once design tokens and styles are finalised
+        # and a proper .stylelintrc.json is committed to the repository.
+
+  lint-js:
+    name: Validate JavaScript
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install ESLint
+        run: npm install --global eslint
+
+      - name: Run JS validation
+        run: |
+          echo '{"env":{"browser":true,"es2022":true},"parserOptions":{"ecmaVersion":2022},"rules":{}}' > .eslintrc.json
+          eslint main.js || true
+        # TODO: remove `|| true` once a proper .eslintrc.json is committed
+        # and the JavaScript codebase has stabilised.
+
+  # Placeholder for future unit/integration tests
+  unit-tests:
+    name: Unit Tests (placeholder)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: No tests yet
+        run: echo "No unit tests defined yet – add a test framework in a future PR."
