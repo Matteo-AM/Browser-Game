@@ -30,34 +30,124 @@
   <!-- ===================== GAME SCREEN ===================== -->
   <section id="screen-game" class="screen" hidden>
 
-    <!-- HUD -->
-    <header id="hud">
-      <div id="hud-player">
-        <span id="hud-username"><!-- player name --></span>
-        <span id="hud-level">Lv. <span id="hud-level-value">1</span></span>
+    <!-- ── TOP BAR ── -->
+    <header id="top-bar">
+      <div id="top-bar-left">
+        <div id="char-info">
+          <span id="hud-username"></span>
+          <span id="hud-level">Lv.&nbsp;<span id="hud-level-value">1</span></span>
+        </div>
+        <div id="stat-bars">
+          <div class="stat-bar">
+            <span class="bar-label">HP</span>
+            <div class="bar-track">
+              <div id="bar-hp" class="bar-fill bar-fill--hp"></div>
+            </div>
+            <span id="hud-hp" class="bar-value">100/100</span>
+          </div>
+          <div class="stat-bar">
+            <span class="bar-label">EXP</span>
+            <div class="bar-track">
+              <div id="bar-exp" class="bar-fill bar-fill--exp"></div>
+            </div>
+            <span id="hud-exp" class="bar-value">0</span>
+          </div>
+        </div>
       </div>
-      <div id="hud-stats">
-        <span>HP: <span id="hud-hp"><!-- hp --></span></span>
-        <span>EXP: <span id="hud-exp"><!-- exp --></span></span>
+      <div id="top-bar-right">
+        <div class="currency-item">
+          <span class="currency-icon">🪙</span>
+          <span id="hud-gold">0</span>
+        </div>
+        <div class="currency-item">
+          <span class="currency-icon">💎</span>
+          <span id="hud-crystals">0</span>
+        </div>
+        <button type="button" id="btn-logout">Logout</button>
       </div>
-      <button type="button" id="btn-logout">Logout</button>
     </header>
 
-    <!-- Main game canvas -->
-    <main id="game-area">
-      <canvas id="game-canvas"></canvas>
-    </main>
+    <!-- ── THREE-COLUMN LAYOUT ── -->
+    <div id="game-layout">
 
-    <!-- Inventory panel (placeholder) -->
-    <aside id="panel-inventory" hidden>
-      <h2>Inventory</h2>
-      <ul id="inventory-list">
-        <!-- Items will be injected by main.js -->
-      </ul>
-    </aside>
+      <!-- Left navigation sidebar -->
+      <nav id="nav-sidebar">
+        <ul class="nav-list">
+          <li class="nav-item active" data-section="village" tabindex="0">
+            <span class="nav-icon">🏘️</span>
+            <span class="nav-label">Village</span>
+          </li>
+          <li class="nav-item" data-section="forest" tabindex="0">
+            <span class="nav-icon">🌲</span>
+            <span class="nav-label">Forest</span>
+          </li>
+          <li class="nav-item" data-section="dungeon" tabindex="0">
+            <span class="nav-icon">🗡️</span>
+            <span class="nav-label">Dungeon</span>
+          </li>
+          <li class="nav-item" data-section="arena" tabindex="0">
+            <span class="nav-icon">⚔️</span>
+            <span class="nav-label">Arena</span>
+          </li>
+          <li class="nav-item" data-section="tavern" tabindex="0">
+            <span class="nav-icon">🍺</span>
+            <span class="nav-label">Tavern</span>
+          </li>
+          <li class="nav-item" data-section="blacksmith" tabindex="0">
+            <span class="nav-icon">🔨</span>
+            <span class="nav-label">Blacksmith</span>
+          </li>
+          <li class="nav-item" data-section="guild" tabindex="0">
+            <span class="nav-icon">🛡️</span>
+            <span class="nav-label">Guild</span>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main content area (canvas / scene) -->
+      <main id="game-content">
+        <canvas id="game-canvas"></canvas>
+        <!-- TODO: section scenes will be rendered here -->
+      </main>
+
+      <!-- Right sidebar: character stats + inventory -->
+      <aside id="panel-right">
+        <section id="panel-character">
+          <h3 class="panel-title">Character</h3>
+          <div id="char-portrait">
+            <!-- TODO: replace with actual character portrait -->
+            <div class="portrait-placeholder"></div>
+          </div>
+          <div id="char-stats">
+            <div class="char-stat">
+              <span class="stat-name">⚔️ Attack</span>
+              <span class="stat-value" id="stat-attack">10</span>
+            </div>
+            <div class="char-stat">
+              <span class="stat-name">🛡️ Defense</span>
+              <span class="stat-value" id="stat-defense">5</span>
+            </div>
+            <div class="char-stat">
+              <span class="stat-name">💨 Speed</span>
+              <span class="stat-value" id="stat-speed">8</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="panel-inventory">
+          <h3 class="panel-title">Inventory</h3>
+          <ul id="inventory-list">
+            <!-- Items injected by game.js -->
+          </ul>
+        </section>
+      </aside>
+
+    </div><!-- /#game-layout -->
 
   </section>
 
-  <script src="main.js"></script>
+  <!-- game.js must be loaded before auth.js (defines shared state & helpers) -->
+  <script src="game.js" defer></script>
+  <script src="auth.js" defer></script>
 </body>
 </html>
